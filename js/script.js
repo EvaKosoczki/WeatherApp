@@ -14,16 +14,20 @@ function onClick() {
 
 };
 function dataCleaner(data) {
-    console.log((new Date(data.list[0].dt_txt).getUTCDate()));
+    let maxTemp = 0;
     for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
         if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
-            console.log('jihha')
+            if (data.list[j].main.temp_max > data.list[i].main.temp_max) {
+                maxTemp = data.list[j].main.temp_max;
+
+            }
+
         }
         else {
             console.log('nono')
         }
     }
-    console.log(data);
+    console.log(maxTemp);
 }
 
 $(function () {
