@@ -6,9 +6,25 @@ function onClick() {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
-        })
+            dataCleaner(data);
+
+            console.log(data);
+        });
+    document.querySelector("#cityName").innerHTML = searchText;
+
 };
+function dataCleaner(data) {
+    console.log((new Date(data.list[0].dt_txt).getUTCDate()));
+    for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
+        if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
+            console.log('jihha')
+        }
+        else {
+            console.log('nono')
+        }
+    }
+    console.log(data);
+}
 
 $(function () {
     $('.toggle').on('click', function () {
