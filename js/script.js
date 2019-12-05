@@ -6,15 +6,17 @@ function onClick() {
             return response.json();
         })
         .then(function (data) {
-            dataCleaner(data);
-
+            maxTempCalculator(data);
+            minTempCalculator(data);
+            weatherDescription(data);
             console.log(data);
         });
     document.querySelector("#cityName").innerHTML = searchText;
 
 };
-function dataCleaner(data) {
-    let maxTemp = 0;
+function maxTempCalculator(data) {
+    let maxTemp = data.list[0].main.temp_max;
+    let maxTemperatures = [];
     for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
         if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
             if (data.list[j].main.temp_max > data.list[i].main.temp_max) {
@@ -24,11 +26,48 @@ function dataCleaner(data) {
 
         }
         else {
-            console.log('nono')
+            maxTemperatures.push(maxTemp);
         }
     }
-    console.log(maxTemp);
+    console.log(maxTemperatures);
 }
+
+function minTempCalculator(data) {
+    let minTemp = data.list[0].main.temp_min;
+    let minTemperatures = [];
+    for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
+        if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
+            if (data.list[j].main.temp_min < data.list[i].main.temp_min) {
+                minTemp = data.list[j].main.temp_min;
+
+            }
+
+        }
+        else {
+            minTemperatures.push(minTemp);
+        }
+    }
+    console.log(minTemperatures);
+}
+
+function weatherDescription(data) {
+    //descriptions.push(data.list[i].weather[0].description)
+    let descriptions = [];
+
+    for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
+
+        if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
+            if (new Date(data.list[i].dt_txt).getHours() == 12) {
+                descriptions.push(data.list[i].weather[0].description);
+
+            }
+
+        }
+
+    }
+
+    console.log(descriptions);
+};
 
 $(function () {
     $('.toggle').on('click', function () {
