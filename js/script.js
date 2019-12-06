@@ -23,9 +23,7 @@ function maxTempCalculator(data) {
         if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
             if (data.list[j].main.temp_max > data.list[i].main.temp_max) {
                 maxTemp = data.list[j].main.temp_max;
-
             }
-
         }
         else {
             maxTemperatures.push("Maximum: " + maxTemp + " °C");
@@ -42,9 +40,7 @@ function minTempCalculator(data) {
         if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
             if (data.list[j].main.temp_min < data.list[i].main.temp_min) {
                 minTemp = data.list[j].main.temp_min;
-
             }
-
         }
         else {
             minTemperatures.push("Minimum: " + minTemp + " °C");
@@ -56,34 +52,53 @@ function minTempCalculator(data) {
 
 function weatherDescription(data) {
     let descriptions = [];
+    let mainDescriptions = [];
     let descriptionDiv = document.querySelectorAll(".descrDiv");
     for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
 
         if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
             if (new Date(data.list[i].dt_txt).getHours() == 12) {
                 descriptions.push(data.list[i].weather[0].description);
+                mainDescriptions.push(data.list[i].weather[0].main);
             }
         }
     }
-    
-    for (let i = 1, j = 0; i < descriptions.length, j < descriptionDiv.length; i += 1, j += 1) {
+
+
+
+    for (let i = 1, j = 0, k = 1; i < descriptions.length, j < descriptionDiv.length, k < mainDescriptions.length; i += 1, j += 1, k += 1) {
         let image = document.createElement('img');
-        image.src = "./img/clear.png";
+        image.src = `./img/${mainDescriptions[k]}.png`;
         descriptionDiv[j].appendChild(image);
         let weatherDesc = document.createElement('p');
         descriptionDiv[j].appendChild(weatherDesc);
         weatherDesc.innerHTML = descriptions[i];
     }
 
-    console.log(descriptions);
+    console.log(mainDescriptions);
 };
 
 function forecastDays(data) {
-    let dates = Array.from(new Set(data.list.map(item => item.dt_txt.slice(5, 10))));
+    let fullDates = Array.from(new Set(data.list.map(item => item.dt_txt.slice(0, 10))));
+    let weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+
+
     let cardHeaders = document.querySelectorAll(".date");
-    for (let i = 1, j = 0; i < dates.length, j < cardHeaders.length; i += 1, j += 1) {
-        cardHeaders[j].innerHTML = dates[i];
+    for (let i = 1, j = 0; i < fullDates.length, j < cardHeaders.length; i += 1, j += 1) {
+        cardHeaders[j].innerHTML = fullDates[i];
+        let day = new Date(fullDates[i]).getDay()
+        cardHeaders[j].innerHTML += '<br>';
+        cardHeaders[j].innerHTML += weekday[day];
+
     }
+
 }
 
 function tempWriter(dataset) {
