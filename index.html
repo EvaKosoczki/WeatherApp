@@ -33,11 +33,19 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="collapsible">Open Collapsible</div>
-                <div class="content">
-                    <p>Lorem ipsum...</p>
-                </div>
+                <div class="collapsible" onclick="openTab('c1')">Open Collapsible</div>
+                <div class="collapsible" onclick="openTab('c2')">Open Collapsible</div>
+                <div class="collapsible" onclick="openTab('c3')">Open Collapsible</div>
             </div>
+        </div>
+        <div id="c1" class="content">
+            <p>Lorem ipsum...</p>
+        </div>
+        <div id="c2" class="content">
+            <p>Lorem ipsum...</p>
+        </div>
+        <div id="c3" class="content">
+            <p>Lorem ipsum...</p>
         </div>
     </div>
     <script src="/jquery//jquery-3.4.1.min.js" type="text/javascript"></script>
