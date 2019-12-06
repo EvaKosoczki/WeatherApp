@@ -56,7 +56,7 @@ function minTempCalculator(data) {
 
 function weatherDescription(data) {
     let descriptions = [];
-    let cardLeftCols = document.querySelectorAll(".leftcol");
+    let descriptionDiv = document.querySelectorAll(".descrDiv");
     for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
 
         if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
@@ -65,12 +65,13 @@ function weatherDescription(data) {
             }
         }
     }
-    for (let i = 1, j = 0; i < descriptions.length, j < cardLeftCols.length; i += 1, j += 1) {
+    
+    for (let i = 1, j = 0; i < descriptions.length, j < descriptionDiv.length; i += 1, j += 1) {
         let image = document.createElement('img');
         image.src = "./img/clear.png";
-        cardLeftCols[j].appendChild(image);
+        descriptionDiv[j].appendChild(image);
         let weatherDesc = document.createElement('p');
-        cardLeftCols[j].appendChild(weatherDesc);
+        descriptionDiv[j].appendChild(weatherDesc);
         weatherDesc.innerHTML = descriptions[i];
     }
 
@@ -79,21 +80,20 @@ function weatherDescription(data) {
 
 function forecastDays(data) {
     let dates = Array.from(new Set(data.list.map(item => item.dt_txt.slice(5, 10))));
-    let cardHeaders = document.querySelectorAll(".card-header");
+    let cardHeaders = document.querySelectorAll(".date");
     for (let i = 1, j = 0; i < dates.length, j < cardHeaders.length; i += 1, j += 1) {
         cardHeaders[j].innerHTML = dates[i];
     }
 }
 
 function tempWriter(dataset) {
-    let cardRightCol = document.querySelectorAll(".rightcol");
+    let cardRightCol = document.querySelectorAll(".temp");
     for (let i = 1, j = 0; i < dataset.length, j < cardRightCol.length; i += 1, j += 1) {
         cardRightCol[j].innerHTML += dataset[i];
         cardRightCol[j].innerHTML += "<br>";
     }
 }
-var coll = document.getElementsByClassName("collapsible");
-var i;
+
 
 function openTab(tabName) {
     let acContent = document.getElementById(tabName)
