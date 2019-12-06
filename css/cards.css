@@ -12,6 +12,7 @@
     display: inline-block;
     width: 15%;
     margin: 5px;
+
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -29,6 +30,20 @@
     transition: max-height 0.2s ease-out;
     background-color: #ccc;
     border-radius: 10px;
-    ;
+    opacity: 0.65;
 }
 
+
+.container-fluid::after {
+    content: "";
+    background-image: url("/img/Clouds.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.6;
+}

@@ -6,6 +6,7 @@ function onClick() {
             return response.json();
         })
         .then(function (data) {
+            backgroundPainter();
             forecastDays(data);
             maxTempCalculator(data);
             minTempCalculator(data);
@@ -108,6 +109,11 @@ function tempWriter(dataset) {
         cardRightCol[j].innerHTML += "<br>";
     }
 }
+/*
+function backgroundPainter() {
+    let bgImg = 'url("/img/Rain.jpg")';
+    document.styleSheets[0].insertRule('container-fluid:after { background-image: url("/img/Rain.jpg"); }', 0);
+}*/
 
 
 function openTab(tabName) {
