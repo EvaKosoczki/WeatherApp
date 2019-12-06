@@ -6,7 +6,7 @@ function onClick() {
             return response.json();
         })
         .then(function (data) {
-            backgroundPainter();
+            //backgroundPainter();
             forecastDays(data);
             maxTempCalculator(data);
             minTempCalculator(data);
