@@ -96,24 +96,17 @@ var coll = document.getElementsByClassName("collapsible");
 var i;
 
 function openTab(tabName) {
-    let content = document.getElementById(tabName)
-    content.classList.toggle("active");
-    if (content.style.maxHeight) {
-        content.style.maxHeight = null;
+    let acContent = document.getElementById(tabName)
+
+    var i, x;
+    x = document.getElementsByClassName("content");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.maxHeight = null;
+    }
+    if (acContent.style.maxHeight) {
+        acContent.style.maxHeight = null;
     } else {
-        content.style.maxHeight = content.scrollHeight + "px";
+        acContent.style.maxHeight = acContent.scrollHeight + "px";
     }
 }
 
-/*
-for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-        }
-    });
-}*/
