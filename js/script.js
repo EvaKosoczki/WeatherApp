@@ -1,4 +1,4 @@
-function onClick() {
+function onSearchClick() {
     let searchText = document.querySelector('#searchTerm').value;
     let url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + searchText + '&units=metric&APPID=1bf7d2db8f859f721b0dc084ff8e20a4';
     fetch(url)
@@ -129,5 +129,6 @@ function openTab(tabName) {
     } else {
         acContent.style.maxHeight = acContent.scrollHeight + "px";
     }
+    let 
 }
 

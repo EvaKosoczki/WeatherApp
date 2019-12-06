@@ -36,7 +36,7 @@
 
 .container-fluid::after {
     content: "";
-    background-image: url("/img/Clouds.jpg");
+    background-image: url("/img/Thunderstorm.jpg");
     background-repeat: no-repeat;
     background-size: 100%;
     top: 0;
