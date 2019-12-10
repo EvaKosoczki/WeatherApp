@@ -43,6 +43,7 @@ function dataCutter(data) {
     maxTempCalculator(slicedData);
     minTempCalculator(slicedData);
     weatherDescription(slicedData);
+    detailedDataWriter(slicedData);
 }
 
 function maxTempCalculator(dataArr) {
@@ -123,9 +124,34 @@ function imageWriter(dataset, selector) {
         let img = document.createElement('img');
         selectedTags[j].appendChild(img);
         img.src = `./img/${dataset[i]}.png`;
-
-
     }
+}
+
+function detailedDataWriter(dataArr) {
+    let contentDivs = document.querySelectorAll('.content');
+    for (let i = 0, j = 0; i < contentDivs.length, j < dataArr.length; i += 1, j += 1) {
+        let dateH2 = document.createElement("h2");
+        dateH2.classList.add('d-block');
+        contentDivs[i].appendChild(dateH2);
+        dateH2.innerHTML = `${new Date(dataArr[j][0].dt_txt).getMonth()}.${new Date(dataArr[j][0].dt_txt).getDate()}.`;
+        for (let k = 0; k < dataArr[j].length; k += 1) {
+            let bigDiv = document.createElement('div');
+            contentDivs[i].appendChild(bigDiv);
+            let p = document.createElement('p');
+            bigDiv.classList.add("d-inline");
+            bigDiv.classList.add("bigDiv");
+            bigDiv.appendChild(p);
+            p.classList.add("d-inline");
+            let time = `${new Date(dataArr[j][k].dt_txt).getHours()}:00`;
+            p.innerHTML = time;
+            p.innerHTML += '<br>'
+            p.innerHTML += dataArr[j][k].weather[0].description;
+            p.innerHTML += '<br>'
+            p.innerHTML += `Temperature: ${dataArr[j][k].main.temp} °C`;
+            p.innerHTML += '<br>'
+        }
+    }
+
 }
 /*
 function backgroundPainter() {
