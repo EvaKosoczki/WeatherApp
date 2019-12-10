@@ -144,11 +144,14 @@ function detailedDataWriter(dataArr) {
             p.classList.add("d-inline");
             let time = `${new Date(dataArr[j][k].dt_txt).getHours()}:00`;
             p.innerHTML = time;
-            p.innerHTML += '<br>'
+            p.innerHTML += '<br>';
             p.innerHTML += dataArr[j][k].weather[0].description;
-            p.innerHTML += '<br>'
+            p.innerHTML += '<br>';
             p.innerHTML += `Temperature: ${dataArr[j][k].main.temp} °C`;
-            p.innerHTML += '<br>'
+            p.innerHTML += '<br>';
+            let img = document.createElement('img');
+            bigDiv.appendChild(img);
+            img.src = `./img/${dataArr[j][k].weather[0].main}.png`;
         }
     }
 
