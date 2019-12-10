@@ -7,76 +7,84 @@ function onSearchClick() {
         })
         .then(function (data) {
             //backgroundPainter();
+            dataCutter(data);
             forecastDays(data);
-            maxTempCalculator(data);
-            minTempCalculator(data);
-            weatherDescription(data);
 
             console.log(data);
         });
     document.querySelector("#cityName").innerHTML = searchText;
 
 };
-function maxTempCalculator(data) {
-    let maxTemp = data.list[0].main.temp_max;
-    let maxTemperatures = [];
+
+
+function dataCutter(data) {
+    let slicedData = [];
+    slicedData.push([data.list[0]]);
     for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
-        if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
-            if (data.list[j].main.temp_max > data.list[i].main.temp_max) {
-                maxTemp = data.list[j].main.temp_max;
-            }
-        }
-        else {
-            maxTemperatures.push("Maximum: " + maxTemp + " °C");
+        if (new Date(data.list[i].dt_txt).getUTCDate() != (new Date(data.list[j].dt_txt)).getUTCDate()) {
+            var set = [];
+            set.push(data.list[i]);
+            slicedData.push(set);
         }
     }
-    console.log(maxTemperatures);
-    tempWriter(maxTemperatures)
+    for (let i = 0; i < slicedData.length; i += 1) {
+        for (let j = 0; j < data.list.length; j += 1) {
+            if ((new Date(slicedData[i][0].dt_txt)).getUTCDate() == new Date(data.list[j].dt_txt).getUTCDate()) {
+
+                slicedData[i].push((data.list[j]));
+            }
+
+        }
+
+    }
+    slicedData = slicedData.slice(2, 6);
+    slicedData = slicedData.map(arr => arr.slice(1));
+    console.log(slicedData)
+    maxTempCalculator(slicedData);
+    minTempCalculator(slicedData);
+    weatherDescription(slicedData);
 }
 
-function minTempCalculator(data) {
-    let minTemp = data.list[0].main.temp_min;
-    let minTemperatures = [];
-    for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
-        if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
-            if (data.list[j].main.temp_min < data.list[i].main.temp_min) {
-                minTemp = data.list[j].main.temp_min;
+function maxTempCalculator(dataArr) {
+    let dailyMaxTempArr = [];
+    for (let i = 0; i < dataArr.length; i += 1) {
+        let maxTemp = dataArr[i][0].main.temp_max
+        for (let j = 0; j < dataArr[i].length; j += 1) {
+            if (dataArr[i][j].main.temp_max > maxTemp) {
+                maxTemp = dataArr[i][j].main.temp_max;
             }
         }
-        else {
-            minTemperatures.push("Minimum: " + minTemp + " °C");
-        }
+        dailyMaxTempArr.push(`Maximum: ${maxTemp} °C`);
     }
-    console.log(minTemperatures);
-    tempWriter(minTemperatures);
+    dataWriter(dailyMaxTempArr, '.maxTemp');
+    console.log(dailyMaxTempArr);
 }
 
-function weatherDescription(data) {
+function minTempCalculator(dataArr) {
+    let dailyMinTempArr = [];
+    for (let i = 0; i < dataArr.length; i += 1) {
+        let minTemp = dataArr[i][0].main.temp_min
+        for (let j = 0; j < dataArr[i].length; j += 1) {
+            if (dataArr[i][j].main.temp_min < minTemp) {
+                minTemp = dataArr[i][j].main.temp_min;
+            }
+        }
+        dailyMinTempArr.push(`Minimum: ${minTemp} °C`);
+    }
+    dataWriter(dailyMinTempArr, '.minTemp');
+    console.log(dailyMinTempArr);
+}
+
+
+function weatherDescription(dataArr) {
     let descriptions = [];
     let mainDescriptions = [];
-    let descriptionDiv = document.querySelectorAll(".descrDiv");
-    for (let i = 0, j = 1; i, j < data.list.length; i += 1, j += 1) {
-
-        if (new Date(data.list[i].dt_txt).getUTCDate() == (new Date(data.list[j].dt_txt)).getUTCDate()) {
-            if (new Date(data.list[i].dt_txt).getHours() == 12) {
-                descriptions.push(data.list[i].weather[0].description);
-                mainDescriptions.push(data.list[i].weather[0].main);
-            }
-        }
+    for (let i = 0; i < dataArr.length; i += 1) {
+        descriptions.push(dataArr[i][3].weather[0].description);
+        mainDescriptions.push(dataArr[i][3].weather[0].main);
     }
-
-
-
-    for (let i = 1, j = 0, k = 1; i < descriptions.length, j < descriptionDiv.length, k < mainDescriptions.length; i += 1, j += 1, k += 1) {
-        let image = document.createElement('img');
-        image.src = `./img/${mainDescriptions[k]}.png`;
-        descriptionDiv[j].appendChild(image);
-        let weatherDesc = document.createElement('p');
-        descriptionDiv[j].appendChild(weatherDesc);
-        weatherDesc.innerHTML = descriptions[i];
-    }
-
-    console.log(mainDescriptions);
+    console.log(descriptions, mainDescriptions);
+    dataWriter(descriptions, '.descrDiv');
 };
 
 function forecastDays(data) {
@@ -102,18 +110,21 @@ function forecastDays(data) {
 
 }
 
-function tempWriter(dataset) {
-    let cardRightCol = document.querySelectorAll(".temp");
-    for (let i = 1, j = 0; i < dataset.length, j < cardRightCol.length; i += 1, j += 1) {
-        cardRightCol[j].innerHTML += dataset[i];
-        cardRightCol[j].innerHTML += "<br>";
+function dataWriter(dataset, selector) {
+    let selectedTags = document.querySelectorAll(selector);
+    for (let i = 0, j = 0; i < dataset.length, j < selectedTags.length; i += 1, j += 1) {
+        selectedTags[j].innerHTML = dataset[i];
     }
+}
+function imageWriter() {
+
 }
 /*
 function backgroundPainter() {
     let bgImg = 'url("/img/Rain.jpg")';
     document.styleSheets[0].insertRule('container-fluid:after { background-image: url("/img/Rain.jpg"); }', 0);
 }*/
+
 
 
 function openTab(tabName) {
@@ -129,6 +140,6 @@ function openTab(tabName) {
     } else {
         acContent.style.maxHeight = acContent.scrollHeight + "px";
     }
-    let 
+
 }
 
