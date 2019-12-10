@@ -85,6 +85,7 @@ function weatherDescription(dataArr) {
     }
     console.log(descriptions, mainDescriptions);
     dataWriter(descriptions, '.descrDiv');
+    imageWriter(mainDescriptions, '.icon_img')
 };
 
 function forecastDays(data) {
@@ -116,8 +117,15 @@ function dataWriter(dataset, selector) {
         selectedTags[j].innerHTML = dataset[i];
     }
 }
-function imageWriter() {
+function imageWriter(dataset, selector) {
+    let selectedTags = document.querySelectorAll(selector);
+    for (let i = 0, j = 0; i < dataset.length, j < selectedTags.length; i += 1, j += 1) {
+        let img = document.createElement('img');
+        selectedTags[j].appendChild(img);
+        img.src = `./img/${dataset[i]}.png`;
 
+
+    }
 }
 /*
 function backgroundPainter() {
