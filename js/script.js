@@ -40,6 +40,7 @@ function dataCutter(data) {
     slicedData = slicedData.slice(2, 6);
     slicedData = slicedData.map(arr => arr.slice(1));
     console.log(slicedData)
+    backgroundPainter(data);
     maxTempCalculator(slicedData);
     minTempCalculator(slicedData);
     weatherDescription(slicedData);
@@ -156,11 +157,12 @@ function detailedDataWriter(dataArr) {
     }
 
 }
-/*
-function backgroundPainter() {
-    let bgImg = 'url("/img/Rain.jpg")';
-    document.styleSheets[0].insertRule('container-fluid:after { background-image: url("/img/Rain.jpg"); }', 0);
-}*/
+
+function backgroundPainter(originalData) {
+    let weather = originalData.list[0].weather[0].main;
+    let bgImg = `url("/img/${weather}.jpg")`;
+    document.querySelector("body").style.backgroundImage = bgImg;
+}
 
 
 
